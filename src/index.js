@@ -4,14 +4,28 @@ import axios from 'axios';
 import './index.css';
 
 class SearchPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        summonerName: "",
+    }
+  }
+
+  handlerSummonerNameChange = event => {
+    this.setState({summonerName: event.target.value});
+  }
+
   getSummoner() {
-    return axios.get('localhost:5000/search/')
+    console.log("Click");
+    return axios.get('http://localhost:5000/search/')
       .then(async res => {
         console.log("received data");
-        console.log(res.data);
-     }).catch(err => {
+        let summonerID = document.getElementById("summonerID").value; 
+        console.log(summonerID);
+        console.log(res);
+      }).catch(err => {
         console.log(err);
-    });
+      });
   }
 
   render() {
@@ -19,31 +33,16 @@ class SearchPage extends React.Component {
       <div>
         <h3>Search Summoner</h3>
         <form action="/search" method="GET">
-          <input type="text" id="summonerID"></input>
+          <input type="text" name="summonerName" id="summonerID" onChange={this.handlerSummonerNameChange}></input>
           <br></br>
           <br></br>
-          <button onClick={this.getSummoner}>Search</button>
+          <button type="button" onClick={() => this.getSummoner()}>Search</button>
         </form>
       </div>
     );
   }
+  
 }
-
-let summonerID = document.getElementById("summonerID");
-console.log(summonerID);
-
-/*
-//send request to riot backend through api endpoint and get user details
-function getSummoner() {
-  return axios.get('localhost:5000/search/')
-    .then(async res => {
-      console.log("received data");
-      console.log(res.data);
-   }).catch(err => {
-      console.log(err);
-  });
-}
-*/
 
 ReactDOM.render(
   <SearchPage />,
