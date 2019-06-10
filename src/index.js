@@ -11,16 +11,18 @@ class SearchPage extends React.Component {
     }
   }
 
+  /*
   handlerSummonerNameChange = event => {
     this.setState({summonerName: event.target.value});
   }
+  */
 
   getSummoner() {
     console.log("Click");
-    return axios.get('http://localhost:5000/search/')
+    let summonerID = document.getElementById("summonerID").value; 
+    return axios.get('http://localhost:5000/search/' + summonerID)
       .then(async res => {
         console.log("received data");
-        let summonerID = document.getElementById("summonerID").value; 
         console.log(summonerID);
         console.log(res);
       }).catch(err => {
@@ -33,7 +35,7 @@ class SearchPage extends React.Component {
       <div>
         <h3>Search Summoner</h3>
         <form action="/search" method="GET">
-          <input type="text" name="summonerName" id="summonerID" onChange={this.handlerSummonerNameChange}></input>
+          <input type="text" name="summonerName" id="summonerID"></input>
           <br></br>
           <br></br>
           <button type="button" onClick={() => this.getSummoner()}>Search</button>

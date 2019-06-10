@@ -8,7 +8,7 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
  
-let apiKey = "RGAPI-fe4abfb4-3a77-4a77-beed-7b3dc29c0116"; // development key
+let apiKey = "RGAPI-d8bd8f1f-2a03-43ef-a322-93b77c817697"; // development key
 let _accountId = "";
 
 async function getSummoner(summonerName) {
@@ -67,12 +67,13 @@ async function matchHistory() {
     });
 }
 
-app.get('/search', async (req, res) => {
-    let summonerName = await getSummoner("hypersexual");
+app.get('/search/:userName', async (req, res) => {
+    console.log("REQUEST: " + req.params.userName);
+    let summonerName = await getSummoner(req.params.userName);
     let _matchHistory = matchHistory();
     console.log("Summoner information: " + JSON.stringify(summonerName));
     console.log(_matchHistory);
-    res.send(summonerName);
+    res.send(_matchHistory);
 });
 
 
