@@ -48,7 +48,7 @@ function championRotation() {
         console.log(error);
     });
 }
-
+ 
 async function matchHistory() { 
     let url = "https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/" + _accountId + "?api_key=" + apiKey; // REST URL
 
@@ -70,10 +70,10 @@ async function matchHistory() {
 app.get('/search/:userName', async (req, res) => {
     console.log("REQUEST: " + req.params.userName);
     let summonerName = await getSummoner(req.params.userName);
-    let _matchHistory = matchHistory();
+    let _matchHistory = await matchHistory();
     console.log("Summoner information: " + JSON.stringify(summonerName));
     console.log(_matchHistory);
-    res.send(_matchHistory);
+    res.send('<p>' + 'Summoner Name:' + JSON.stringify(summonerName) + JSON.stringify(_matchHistory) + '</p>');
 });
 
 
