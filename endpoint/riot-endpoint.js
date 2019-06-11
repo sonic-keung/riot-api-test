@@ -10,6 +10,9 @@ app.use(express.static(path.join(__dirname, 'client/build')));
  
 let apiKey = "RGAPI-d8bd8f1f-2a03-43ef-a322-93b77c817697"; // development key
 let _accountId = "";
+let _accountName = "";
+let _totalGames = "";
+let _matches = "";
 
 async function getSummoner(summonerName) {
     
@@ -23,6 +26,7 @@ async function getSummoner(summonerName) {
     }).then((response) => {
         console.log(response.data);
         _accountId = response.data.accountId;
+        _accountName = response.data.name;
         return _accountId;
     })
     .catch(function (error) {
@@ -59,7 +63,8 @@ async function matchHistory() {
         }
     }).then((response) => {
         console.log(response.data);
-        return response.data;
+        _totalGames = response.data.totalGames;
+        return _totalGames;
     })
     .catch(function (error) {
         // handle error
@@ -69,11 +74,10 @@ async function matchHistory() {
 
 app.get('/search/:userName', async (req, res) => {
     console.log("REQUEST: " + req.params.userName);
-    let summonerName = await getSummoner(req.params.userName);
+    let _summonerId = await getSummoner(req.params.userName);
     let _matchHistory = await matchHistory();
-    console.log("Summoner information: " + JSON.stringify(summonerName));
     console.log(_matchHistory);
-    res.send('<p>' + 'Summoner Name:' + JSON.stringify(summonerName) + JSON.stringify(_matchHistory) + '</p>');
+    res.send('<p>' + 'Account Name: ' + _accountName + ' Account ID: ' + _summonerId + ' Total Matches: ' + JSON.stringify(_matchHistory) + '</p>');
 });
 
 
